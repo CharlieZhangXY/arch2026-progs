@@ -33,9 +33,6 @@ gcd_u32_asm:
     mv a2, a3
 
 .Lcompare:
-    li t1, 1
-    beq a0, t1, .Lone
-    beq a1, t1, .Lone
     beq a0, a1, .Ldone
     bltu a1, a0, .Lordered
     mv t0, a0
