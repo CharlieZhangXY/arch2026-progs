@@ -67,6 +67,8 @@ static unsigned lookup(struct coords c)
         unsigned entry = dictionary[low++];
         if ((entry & ~31u) == key)
             return entry & 31u;
+        if (entry > key)
+            break;
     }
 
     return NO_ENTRY;
