@@ -84,14 +84,14 @@ uint16_t bf16_sqrt(uint16_t a)
     unsigned rem = ((mant + 1u) << 7) - 1;
 
     /* Use two input bits at a time to find the next bit of the square root. */
-    unsigned root = 90;
-    unsigned high = 256;
-    while (root < high) {
-        unsigned mid = (root + high + 1) >> 1;
-        if (mid * mid <= rem)
-            root = mid;
-        else
-            high = mid - 1;
+    unsigned root = 0;
+    for (unsigned bit = 1u << 14; bit; bit >>= 2) {
+        unsigned trial = root + bit;
+        root >>= 1;
+        if (rem >= trial) {
+            rem -= trial;
+            root += bit;
+        }
     }
 
     return (uint16_t) ((((exp + 127u) >> 1) << 7) | (root - 128u));
